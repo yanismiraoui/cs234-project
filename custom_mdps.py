@@ -9,7 +9,7 @@ class RiverSwimEnv(gym.Env):
         super(RiverSwimEnv, self).__init__()
         self.n_states = n_states
         self.right_prob = right_prob
-        self.n_actions = 2  # 0: left, 1: right
+        self.n_actions = 2
         self.action_space = gym.spaces.Discrete(self.n_actions)
         self.observation_space = gym.spaces.Discrete(self.n_states)
         self.P = self._build_transition_probabilities()
@@ -46,7 +46,6 @@ class RiverSwimEnv(gym.Env):
     def render(self, mode='human'):
         pass
 
-# Register the custom environment
 gym.envs.registration.register(
     id='RiverSwim-v0',
     entry_point='__main__:RiverSwimEnv',
@@ -58,20 +57,18 @@ class SixArmsEnv(gym.Env):
         super(SixArmsEnv, self).__init__()
         self.n_arms = n_arms
         self.transition_prob = transition_prob
-        self.n_actions = n_arms  # One action for each arm
+        self.n_actions = n_arms 
         self.action_space = gym.spaces.Discrete(self.n_actions)
-        self.observation_space = gym.spaces.Discrete(2)  # Two states: center (0) and arm (1)
+        self.observation_space = gym.spaces.Discrete(2)
         self.P = self._build_transition_probabilities()
         self.state = 0
 
     def _build_transition_probabilities(self):
         P = {0: {a: [] for a in range(self.n_actions)}, 1: {a: [] for a in range(self.n_actions)}}
         
-        # Transitions from the center (state 0)
         for a in range(self.n_actions):
             P[0][a] = [(self.transition_prob, 1, 1, False), (1 - self.transition_prob, 0, 0, False)]
         
-        # Transitions from an arm (state 1)
         for a in range(self.n_actions):
             P[1][a] = [(1.0, 0, 0, False)]
         
@@ -91,7 +88,6 @@ class SixArmsEnv(gym.Env):
     def render(self, mode='human'):
         pass
 
-# Register the custom environment
 gym.envs.registration.register(
     id='SixArms-v0',
     entry_point='__main__:SixArmsEnv',
@@ -153,7 +149,7 @@ class GarnetMDPEnv(gym.Env):
         super(GarnetMDPEnv, self).__init__()
         self.n_states = n_states
         self.n_actions = n_actions
-        self.sparsity = sparsity  # Number of non-zero transitions per state-action pair
+        self.sparsity = sparsity 
         self.action_space = gym.spaces.Discrete(self.n_actions)
         self.observation_space = gym.spaces.Discrete(self.n_states)
         self.P, self.R = self._build_transition_probabilities_and_rewards()
@@ -189,7 +185,6 @@ class GarnetMDPEnv(gym.Env):
     def render(self, mode='human'):
         pass
 
-# Register the custom environment
 gym.envs.registration.register(
     id='GarnetMDP-v0',
     entry_point='__main__:GarnetMDPEnv',
